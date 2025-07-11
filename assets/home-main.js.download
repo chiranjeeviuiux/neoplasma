@@ -1,0 +1,671 @@
+// on ready
+$(document).ready(function () {
+  // get active
+  function active_tab_highlight_pos(init = false, resize = false) {
+    // our nav tabs
+    let nav_tabs = $(".nav-tabs");
+
+    // find our current active tab element
+    let active_tab = $(nav_tabs).find(".active");
+
+    // get set nav tabs positions
+    let nav_tabs_pos = {
+      x: $(nav_tabs).offset().left,
+      y: $(nav_tabs).offset().top,
+    };
+
+    // get set current active tab positions and dimensions
+    let active_tab_pos = {
+      x: $(active_tab).offset().left - nav_tabs_pos.x,
+      y: $(active_tab).offset().top - nav_tabs_pos.y,
+      w: $(active_tab).outerWidth(),
+      h: $(active_tab).outerHeight(),
+    };
+
+    // if we are initiating active highlight for the first time
+    if (init) {
+      // prepend active highlight list element to our nav tabs
+      $(nav_tabs).prepend('<li class="active-highlight"></li>');
+    }
+
+    // get our active hightlight element
+    let active_highlight = $(nav_tabs).find(".active-highlight");
+
+    // if we are resizing window
+    if (resize) {
+      // disable transition effect
+      $(active_highlight).css({
+        transition: "none",
+      });
+
+      // else enable transition effect
+    } else {
+      // change here to change the transition effect and speed
+      $(active_highlight).css({
+        transition: "all .5s ease",
+      });
+    }
+
+    // set active highlight position css
+    $(active_highlight).css({
+      width: active_tab_pos.w + "px",
+      height: active_tab_pos.h + "px",
+      left: active_tab_pos.x + "px",
+      top: active_tab_pos.y + "px",
+    });
+  }
+
+  // reposition active tab highlight on init
+  active_tab_highlight_pos(true);
+
+  // on window responsive resize event
+  $(window).on("resize", function () {
+    // reposition active tab highlight on responsive resize
+    active_tab_highlight_pos(false, true);
+  });
+
+  // data-bs-toggle="tab" on shown event handler
+  $('[data-bs-toggle="tab"]').on("shown.bs.tab", function () {
+    // reposition active tab highlight
+    active_tab_highlight_pos();
+  });
+});
+
+// recent search slider
+
+$(".recent-search-slider").slick({
+  infinite: false,
+  slidesToShow: 3.8,
+  slidesToScroll: 1,
+  arrows: false,
+  focusOnSelect: true,
+  dots: false,
+
+  responsive: [
+    {
+      breakpoint: 767,
+      settings: {
+        slidesToShow: 1.1,
+        slidesToScroll: 1,
+      },
+    },
+  ],
+});
+
+// number count
+
+(function ($) {
+  "use strict";
+
+  function countDecimal($this) {
+    var current = parseFloat($this.html());
+    var target = parseFloat($this.data("count"));
+    var increment = 20; // You can adjust the increment value as needed
+
+    if (current < target) {
+      current += increment;
+      $this.html(current.toFixed(0)); // Adjust the decimal precision as needed
+      setTimeout(function () {
+        countDecimal($this);
+      }, 0);
+    } else {
+      $this.html(target.toFixed(0)); // Ensure the final value has the desired precision
+    }
+  }
+
+  $(".stat-count").each(function () {
+    $(this).data("count", parseFloat($(this).html()));
+    $(this).html("0"); // Set the initial value with the desired decimal precision
+    countDecimal($(this));
+  });
+})(jQuery);
+
+// recent search slider
+
+$(".new-rs-slider").slick({
+  infinite: true,
+  slidesToShow: 4,
+  slidesToScroll: 1,
+  arrows: false,
+  focusOnSelect: true,
+  dots: true,
+  autoplay: true,
+  responsive: [
+    {
+      breakpoint: 768,
+      settings: {
+        slidesToShow: 1.1,
+        slidesToScroll: 1,
+      },
+    },
+  ],
+});
+
+$(document).ready(function () {
+  $(".new-rs-slider").on("wheel", function (event) {
+    event.preventDefault();
+    if (event.originalEvent.deltaY < 0) {
+      $(this).slick("slickNext");
+    } else {
+      $(this).slick("slickPrev");
+    }
+  });
+});
+
+$(".slider-awards-resp").slick({
+  infinite: false,
+  slidesToShow: 4,
+  slidesToScroll: 1,
+  arrows: false,
+  focusOnSelect: true,
+  dots: true,
+  settings: "unslick",
+
+  responsive: [
+    {
+      breakpoint: 9999,
+      settings: "unslick",
+    },
+    {
+      breakpoint: 768,
+      settings: {
+        slidesToShow: 1.1,
+        slidesToScroll: 1,
+      },
+    },
+  ],
+});
+
+// popular-blogs-slider
+
+$(".popular-blogs-slider").slick({
+  infinite: false,
+  slidesToShow: 4,
+  slidesToScroll: 1,
+  arrows: false,
+  focusOnSelect: true,
+  dots: false,
+  settings: "unslick",
+
+  responsive: [
+    {
+      breakpoint: 9999,
+      settings: "unslick",
+    },
+    {
+      breakpoint: 768,
+      settings: {
+        slidesToShow: 1.1,
+        slidesToScroll: 1,
+      },
+    },
+  ],
+});
+
+$(".popular-blogs-slider1").slick({
+  infinite: false,
+  slidesToShow: 4,
+  slidesToScroll: 1,
+  arrows: false,
+  focusOnSelect: true,
+  dots: false,
+  settings: "unslick",
+
+  responsive: [
+    {
+      breakpoint: 9999,
+      settings: "unslick",
+    },
+    {
+      breakpoint: 768,
+      settings: {
+        slidesToShow: 1.1,
+        slidesToScroll: 1,
+      },
+    },
+  ],
+});
+
+$(".popular-blogs-slider2").slick({
+  infinite: false,
+  slidesToShow: 4,
+  slidesToScroll: 1,
+  arrows: false,
+  focusOnSelect: true,
+  dots: false,
+  settings: "unslick",
+
+  responsive: [
+    {
+      breakpoint: 9999,
+      settings: "unslick",
+    },
+    {
+      breakpoint: 768,
+      settings: {
+        slidesToShow: 1.1,
+        slidesToScroll: 1,
+      },
+    },
+  ],
+});
+$(".popular-blogs-slider3").slick({
+  infinite: false,
+  slidesToShow: 4,
+  slidesToScroll: 1,
+  arrows: false,
+  focusOnSelect: true,
+  dots: false,
+  settings: "unslick",
+
+  responsive: [
+    {
+      breakpoint: 9999,
+      settings: "unslick",
+    },
+    {
+      breakpoint: 768,
+      settings: {
+        slidesToShow: 1.1,
+        slidesToScroll: 1,
+      },
+    },
+  ],
+});
+$(".popular-blogs-slider4").slick({
+  infinite: false,
+  slidesToShow: 4,
+  slidesToScroll: 1,
+  arrows: false,
+  focusOnSelect: true,
+  dots: false,
+  settings: "unslick",
+
+  responsive: [
+    {
+      breakpoint: 9999,
+      settings: "unslick",
+    },
+    {
+      breakpoint: 768,
+      settings: {
+        slidesToShow: 1.1,
+        slidesToScroll: 1,
+      },
+    },
+  ],
+});
+$(".popular-blogs-slider5").slick({
+  infinite: false,
+  slidesToShow: 4,
+  slidesToScroll: 1,
+  arrows: false,
+  focusOnSelect: true,
+  dots: false,
+  settings: "unslick",
+
+  responsive: [
+    {
+      breakpoint: 9999,
+      settings: "unslick",
+    },
+    {
+      breakpoint: 768,
+      settings: {
+        slidesToShow: 1.1,
+        slidesToScroll: 1,
+      },
+    },
+  ],
+});
+$(".popular-blogs-slider6").slick({
+  infinite: false,
+  slidesToShow: 4,
+  slidesToScroll: 1,
+  arrows: false,
+  focusOnSelect: true,
+  dots: false,
+  settings: "unslick",
+
+  responsive: [
+    {
+      breakpoint: 9999,
+      settings: "unslick",
+    },
+    {
+      breakpoint: 768,
+      settings: {
+        slidesToShow: 1.1,
+        slidesToScroll: 1,
+      },
+    },
+  ],
+});
+
+$("#material-tab-product-coverage").each(function () {
+  var $active,
+    $content,
+    $links = $(this).find("a");
+
+  $active = $($links[0]);
+  $active.addClass("active");
+
+  $content = $($active[0].hash);
+
+  $links.not($active).each(function () {
+    $(this.hash).hide();
+  });
+
+  $(this).on("click", "a", function (e) {
+    $active.removeClass("active");
+    $content.hide();
+
+    $active = $(this);
+    $content = $(this.hash);
+
+    $active.addClass("active");
+    $content.show();
+
+    e.preventDefault();
+  });
+});
+
+$(".Learn_more_slider1").slick({
+  infinite: true,
+  slidesToShow: 3,
+  slidesToScroll: 1,
+  arrows: false,
+  focusOnSelect: false,
+  dots: false,
+  observer: true,
+  observeParents: true,
+  // mousewheel: true,
+
+  responsive: [
+    {
+      breakpoint: 991,
+      settings: {
+        slidesToShow: 1.1,
+        slidesToScroll: 1,
+        dots: true,
+      },
+    },
+  ],
+});
+
+$(document).ready(function () {
+  $(".Learn_more_slider1").on("wheel", function (event) {
+    event.preventDefault();
+    if (event.originalEvent.deltaY < 0) {
+      $(this).slick("slickNext");
+    } else {
+      $(this).slick("slickPrev");
+    }
+  });
+});
+
+$(".Learn_more_slider2").slick({
+  infinite: true,
+  slidesToShow: 3,
+  slidesToScroll: 1,
+  arrows: false,
+  focusOnSelect: false,
+  dots: false,
+  observer: true,
+  observeParents: true,
+
+  responsive: [
+    {
+      breakpoint: 991,
+      settings: {
+        slidesToShow: 1.1,
+        slidesToScroll: 1,
+        dots: true,
+      },
+    },
+  ],
+});
+
+$(document).ready(function () {
+  $(".Learn_more_slider2").on("wheel", function (event) {
+    event.preventDefault();
+    if (event.originalEvent.deltaY < 0) {
+      $(this).slick("slickNext");
+    } else {
+      $(this).slick("slickPrev");
+    }
+  });
+});
+
+$(".Learn_more_slider3").slick({
+  infinite: true,
+  slidesToShow: 3,
+  slidesToScroll: 1,
+  arrows: false,
+  focusOnSelect: false,
+  dots: false,
+  observer: true,
+  observeParents: true,
+
+  responsive: [
+    {
+      breakpoint: 991,
+      settings: {
+        slidesToShow: 1.1,
+        slidesToScroll: 1,
+        dots: true,
+      },
+    },
+  ],
+});
+
+$(document).ready(function () {
+  $(".Learn_more_slider3").on("wheel", function (event) {
+    event.preventDefault();
+    if (event.originalEvent.deltaY < 0) {
+      $(this).slick("slickNext");
+    } else {
+      $(this).slick("slickPrev");
+    }
+  });
+});
+
+$(".Learn_more_slider4").slick({
+  infinite: true,
+  slidesToShow: 3,
+  slidesToScroll: 1,
+  arrows: false,
+  focusOnSelect: false,
+  dots: false,
+  observer: true,
+  observeParents: true,
+
+  responsive: [
+    {
+      breakpoint: 991,
+      settings: {
+        slidesToShow: 1.1,
+        slidesToScroll: 1,
+        dots: true,
+        settings: "unslick",
+      },
+    },
+  ],
+});
+
+const searchInput = document.getElementById("searchInput_height");
+const customOptions = document.querySelector(".custom-options");
+
+searchInput.placeholder = "I would like to protect";
+
+searchInput.addEventListener("click", function () {
+  customOptions.style.display = "block";
+});
+
+searchInput.addEventListener("input", function () {
+  const searchTerm = searchInput.value.toLowerCase();
+  const options = customOptions.querySelectorAll("div");
+
+  options.forEach((option) => {
+    const optionText = option.textContent.toLowerCase();
+    if (optionText.includes(searchTerm)) {
+      option.style.display = "block";
+    } else {
+      option.style.display = "none";
+    }
+  });
+});
+
+customOptions.addEventListener("click", function (event) {
+  if (event.target.tagName === "DIV") {
+    searchInput.value = event.target.textContent;
+    customOptions.style.display = "none";
+  }
+});
+
+document.addEventListener("click", function (event) {
+  if (!customOptions.contains(event.target) && event.target !== searchInput) {
+    customOptions.style.display = "none";
+  }
+});
+
+// const searchInput1 = document.getElementById("searchInput_height1");
+// const customOptions1 = document.querySelector(".custom-options1");
+
+// searchInput1.placeholder = "English";
+
+// searchInput1.addEventListener("click", function () {
+//   customOptions1.style.display = "block";
+// });
+
+// searchInput1.addEventListener("input", function () {
+//   const searchTerm1 = searchInput1.value.toLowerCase();
+//   const options = customOptions1.querySelectorAll("div");
+
+//   options.forEach((option) => {
+//     const optionText = option.textContent.toLowerCase();
+//     if (optionText.includes(searchTerm1)) {
+//       option.style.display = "block";
+//     } else {
+//       option.style.display = "none";
+//     }
+//   });
+// });
+
+// customOptions1.addEventListener("click", function (event) {
+//   if (event.target.tagName === "DIV") {
+//     searchInput1.value = event.target.textContent;
+//     customOptions1.style.display = "none";
+//   }
+// });
+
+// document.addEventListener("click", function (event) {
+//   if (!customOptions1.contains(event.target) && event.target !== searchInput1) {
+//     customOptions1.style.display = "none";
+//   }
+// });
+
+const searchInput1 = document.getElementById("searchInput_height1");
+const customOptions1 = document.querySelector(".custom-options1");
+
+//searchInput1.placeholder = "English";
+
+function openDropdown() {
+  customOptions1.style.display = "block";
+}
+
+function closeDropdown() {
+  customOptions1.style.display = "none";
+}
+
+searchInput1.addEventListener("mouseenter", openDropdown);
+customOptions1.addEventListener("mouseenter", openDropdown);
+searchInput1.addEventListener("mouseleave", closeDropdown);
+customOptions1.addEventListener("mouseleave", closeDropdown);
+
+searchInput1.addEventListener("input", function () {
+  const searchTerm1 = searchInput1.value.toLowerCase();
+  const options = customOptions1.querySelectorAll("div");
+
+  options.forEach((option) => {
+    const optionText = option.textContent.toLowerCase();
+    if (optionText.includes(searchTerm1)) {
+      option.style.display = "block";
+    } else {
+      option.style.display = "none";
+    }
+  });
+});
+
+customOptions1.addEventListener("click", function (event) {
+  if (event.target.tagName === "DIV") {
+    searchInput1.value = event.target.textContent;
+    customOptions1.style.display = "none";
+  }
+});
+
+document.addEventListener("click", function (event) {
+  if (!customOptions1.contains(event.target) && event.target !== searchInput1) {
+    customOptions1.style.display = "none";
+  }
+});
+
+// hide and show
+
+$(".insure_new_btn").click(function () {
+  $(".my_reg_num").show();
+  $(".reg_num_btn").show();
+  $(".insure_new_bike").hide();
+  $(".Recurring_User").hide();
+  $(".Recurring_User_trying").hide();
+
+  $(this).hide();
+});
+
+$(".reg_num_btn").click(function () {
+  $(".insure_new_bike").show();
+  $(".insure_new_btn").show();
+  $(".my_reg_num").hide();
+
+  $(this).hide();
+});
+
+$(document).ready(function () {
+  // Change 'animation.json' to the path of your JSON file
+  var animationPath1 = "/assets/airplane-vanA.json";
+
+  // Load animation data with Lottie
+  lottie.loadAnimation({
+    container: document.getElementById("animation-container1"),
+    renderer: "svg", // or 'canvas' or 'html'
+    path: animationPath1,
+    autoplay: true,
+    loop: true,  
+  });
+});
+
+// $(window).on('load', function () {
+//   var animationPath1 = "images/home/airplane and van A.json";
+
+//   lottie.loadAnimation({
+//     container: document.getElementById("animation-container"),
+//     renderer: "svg",
+//     path: animationPath1,
+//     autoplay: true,
+//     loop: true,
+//   });
+// });
+
+$(document).ready(function () {
+  // Change 'animation.json' to the path of your JSON file
+  var animationPath = "/assets/cloud.json";
+
+  // Load animation data with Lottie
+  lottie.loadAnimation({
+    container: document.getElementById("animation-container"),
+    renderer: "svg", // or 'canvas' or 'html'
+    path: animationPath,
+    autoplay: true,
+    loop: true,
+  });
+});

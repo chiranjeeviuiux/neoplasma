@@ -1,0 +1,1960 @@
+$(function () {
+  $(".ui_datepicker").datepicker({
+    changeYear: true,
+    stepMonths: 1,
+    showMonthAfterYear: true,
+    dateFormat: "dd/mm/yy",
+    onSelect: function (dateText, inst) {
+      // Trigger validation when a date is selected
+      $(
+        "#bAdharForm,#bskipForm,#bproForm,#hcAdharForm,#hcskipForm,#hcproForm,#bcAdharForm,#bcproForm,#bcskipForm,#existingForm,#selfForm,#selfForm1"
+      ).valid();
+    },
+    beforeShow: function (textbox, instance) {
+      $(".datepicker_div").append($(".ui-datepicker-year"));
+    },
+  });
+});
+
+$(document).ready(function () {
+  $(".type_of_cover_dropdown").select2({
+    minimumResultsForSearch: Infinity,
+  });
+});
+
+/********* Header Start **********/
+$(".closeHeader").on("click", function (e) {
+  $(".secoundry_header").hide();
+  $(".empty_Space").addClass("reduceEmptySpace");
+});
+$(".country_selector").countrySelect({
+  defaultCountry: "us",
+});
+
+$(".navbar-toggler").click(function () {
+  $("body").toggleClass("noScroll");
+});
+
+$(function () {
+  var availableTags = [
+    "ActionScript",
+    "AppleScript",
+    "Asp",
+    "BASIC",
+    "C",
+    "C++",
+    "Clojure",
+    "COBOL",
+    "ColdFusion",
+    "Erlang",
+    "Fortran",
+    "Groovy",
+    "Haskell",
+    "Java",
+    "JavaScript",
+    "Lisp",
+    "Perl",
+    "PHP",
+    "Python",
+    "Ruby",
+    "Scala",
+    "Scheme",
+  ];
+  $(".search").autocomplete({
+    source: availableTags,
+  });
+});
+$(".search_btn").click(function () {
+  $(".search").show();
+});
+
+$(".close_search").click(function () {
+  $(".search").hide();
+});
+
+$(".mega_menu_slider").slick({
+  dots: false,
+  arrows: true,
+  infinite: false,
+  speed: 600,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+  focusOnSelect: true,
+  variableWidth: true,
+  responsive: [
+    {
+      breakpoint: 767,
+      settings: {
+        slidesToShow: 1.5,
+        slidesToScroll: 1,
+      },
+    },
+  ],
+});
+
+$(".signin_validation").validate({
+  rules: {
+    phoneNumber: {
+      required: true,
+      minlength: 10,
+      maxlength: 10,
+      digits: true,
+    },
+  },
+  messages: {
+    phoneNumber: {
+      required: "Please enter mobile number.",
+      minlength: "Mobile number must be 10 digits .",
+      maxlength: "Mobile number must be 10 digits .",
+      digits: "Please enter only digits.",
+    },
+  },
+  submitHandler: function (form) {
+    $("#otp_modal").modal("show");
+    $("#mobile_sigin").modal("hide");
+  },
+});
+
+$(".otp-input").on("input", function () {
+  if ($(this).val().length > 1) {
+    $(this).val($(this).val().slice(0, 1));
+  }
+  var currentIndex = $(this).index(".otp-input");
+  if ($(this).val().length === 1 && currentIndex < 5) {
+    $("#otp" + (currentIndex + 2)).focus();
+  }
+});
+$(".otp-input").keydown(function (event) {
+  var currentIndex = $(this).index(".otp-input");
+  if (event.which === 8) {
+    // Backspace
+    event.preventDefault();
+    if (currentIndex > -1) {
+      $(this).val("");
+      $("#otp" + currentIndex).focus();
+    }
+  }
+});
+$(document).ready(function () {
+  $(".otp-input").on("input", function () {
+    var allFieldsFilled = true;
+    $(".otp-input").each(function () {
+      if ($(this).val().trim() === "") {
+        allFieldsFilled = false;
+        return false; // Break out of the each loop
+      }
+    });
+
+    if (allFieldsFilled) {
+      $(".otp-input").addClass("green_box");
+      // All OTP fields are filled, redirect to "your_profile" modal
+      $("#your_profile").modal("show");
+      // Close the "otp" modal
+      $("#otp_modal").modal("hide");
+    }
+  });
+});
+
+$(document).ready(function () {
+  $(".otp-input-vehicle").on("input", function () {
+    var allFieldsFilled = true;
+    $(".otp-input-vehicle").each(function () {
+      if ($(this).val().trim() === "") {
+        allFieldsFilled = false;
+        return false; // Break out of the each loop
+      }
+    });
+
+    if (allFieldsFilled) {
+      // All OTP fields are filled, redirect to "your_profile" modal
+      // $('#your_profile').modal('show');
+      // Close the "otp" modal
+      $(".otp-input-vehicle").addClass("green_box");
+      $("#otp_vehicle").modal("hide");
+    }
+  });
+});
+
+$(".otp-input-vehicle").on("input", function () {
+  if ($(this).val().length > 1) {
+    $(this).val($(this).val().slice(0, 1));
+  }
+  var currentIndex = $(this).index(".otp-input-vehicle");
+  if ($(this).val().length === 1 && currentIndex < 5) {
+    $("#vehicalOtp" + (currentIndex + 2)).focus();
+  }
+});
+
+$(".otp-input-vehicle").keydown(function (event) {
+  var currentIndex = $(this).index(".otp-input-vehicle");
+  if (event.which === 8) {
+    // Backspace
+    event.preventDefault();
+    if (currentIndex > -1) {
+      $(this).val("");
+      $("#vehicalOtp" + currentIndex).focus();
+    }
+  }
+});
+
+$(".otp_form").validate({
+  rules: {
+    otp: {
+      required: true,
+      digits: true,
+      minlength: 1,
+      maxlength: 1,
+    },
+  },
+  messages: {
+    otp: "Please enter OTP",
+  },
+  submitHandler: function () {
+    $("#otp_modal").modal("hide");
+    $("#your_profile").modal("show");
+  },
+  errorPlacement: function (error, element) {
+    if (element.is(":input")) {
+      error.appendTo(element.parents(".err_msg"));
+    } else {
+      // This is the default behavior
+      error.insertAfter(element);
+    }
+  },
+});
+
+$(".detail_form").validate({
+  rules: {
+    Fullname: {
+      required: true,
+    },
+    mailId: {
+      required: true,
+    },
+  },
+  messages: {
+    Fullname: "Please enter Full name",
+    mailId: "please enter Email ID",
+  },
+  submitHandler: function () {
+    $("#your_profile").modal("hide");
+    // $('#otp_modal').modal('show');
+  },
+  errorPlacement: function (error, element) {
+    if (element.is(":input")) {
+      error.appendTo(element.parents(".err_msg"));
+    } else {
+      // This is the default behavior
+      error.insertAfter(element);
+    }
+  },
+});
+
+//policy details flow//
+
+$(".policy_validation").validate({
+  rules: {
+    policynum: {
+      required: true,
+    },
+    expdate: {
+      required: true,
+    },
+  },
+  messages: {
+    policynum: "Please enter Policy Number",
+    expdate: "please enter date",
+  },
+  submitHandler: function () {
+    $("#policy_signin").modal("hide");
+    // $('#otp_modal').modal('show');
+  },
+  errorPlacement: function (error, element) {
+    if (element.is(":input")) {
+      error.appendTo(element.parents(".err_msg"));
+    } else {
+      // This is the default behavior
+      error.insertAfter(element);
+    }
+  },
+});
+
+$(".vehicle_validation").validate({
+  rules: {
+    vehiclenum: {
+      required: true,
+    },
+  },
+  messages: {
+    vehiclenum: "Please Enter vehicle registered number",
+  },
+  submitHandler: function () {
+    $("#vehicle_reg").modal("hide");
+    $("#otp_vehicle").modal("show");
+  },
+  errorPlacement: function (error, element) {
+    if (element.is(":input")) {
+      error.appendTo(element.parents(".err_msg"));
+    } else {
+      // This is the default behavior
+      error.insertAfter(element);
+    }
+  },
+});
+
+$(document).ready(function () {
+  // Open the second modal when the link is clicked
+  $("#policy_det").on("click", function (e) {
+    e.preventDefault(); // Prevent the default link behavior
+
+    // Close the first modal
+    $("#mobile_sigin").modal("hide");
+
+    // Open the second modal
+    $("#policy_signin").modal("show");
+  });
+});
+$(document).ready(function () {
+  // Open the second modal when the link is clicked
+  $("#veh_reg").on("click", function (e) {
+    e.preventDefault(); // Prevent the default link behavior
+
+    // Close the first modal
+    $("#mobile_sigin").modal("hide");
+
+    // Open the second modal
+    $("#vehicle_reg").modal("show");
+  });
+});
+
+$(document).ready(function () {
+  // Open the second modal when the link is clicked
+  $("#policy_det1").on("click", function (e) {
+    e.preventDefault(); // Prevent the default link behavior
+
+    // Close the first modal
+    $("#otp_modal").modal("hide");
+
+    // Open the second modal
+    $("#policy_signin").modal("show");
+  });
+});
+$(document).ready(function () {
+  // Open the second modal when the link is clicked
+  $("#veh_reg1").on("click", function (e) {
+    e.preventDefault(); // Prevent the default link behavior
+
+    // Close the first modal
+    $("#otp_modal").modal("hide");
+
+    // Open the second modal
+    $("#vehicle_reg").modal("show");
+  });
+});
+
+$(document).ready(function () {
+  // Open the second modal when the link is clicked
+  $("#mob_number").on("click", function (e) {
+    e.preventDefault(); // Prevent the default link behavior
+
+    // Close the first modal
+    $("#policy_signin").modal("hide");
+
+    // Open the second modal
+    $("#mobile_sigin").modal("show");
+  });
+});
+
+$(document).ready(function () {
+  // Open the second modal when the link is clicked
+  $("#vehi_reg").on("click", function (e) {
+    e.preventDefault(); // Prevent the default link behavior
+
+    // Close the first modal
+    $("#policy_signin").modal("hide");
+
+    // Open the second modal
+    $("#vehicle_reg").modal("show");
+  });
+});
+
+$(document).ready(function () {
+  // Open the second modal when the link is clicked
+  $("#policy_details").on("click", function (e) {
+    e.preventDefault(); // Prevent the default link behavior
+
+    // Close the first modal
+    $("#vehicle_reg").modal("hide");
+
+    // Open the second modal
+    $("#policy_signin").modal("show");
+  });
+});
+$(document).ready(function () {
+  // Open the second modal when the link is clicked
+  $("#mobile_number").on("click", function (e) {
+    e.preventDefault(); // Prevent the default link behavior
+
+    // Close the first modal
+    $("#vehicle_reg").modal("hide");
+
+    // Open the second modal
+    $("#mobile_sigin").modal("show");
+  });
+});
+
+$(document).ready(function () {
+  // Open the second modal when the link is clicked
+  $("#pol_det").on("click", function (e) {
+    e.preventDefault(); // Prevent the default link behavior
+
+    // Close the first modal
+    $("#otp_vehicle").modal("hide");
+
+    // Open the second modal
+    $("#policy_signin").modal("show");
+  });
+});
+
+$(document).ready(function () {
+  // Open the second modal when the link is clicked
+  $("#mobile-numbers").on("click", function (e) {
+    e.preventDefault(); // Prevent the default link behavior
+
+    // Close the first modal
+    $("#otp_vehicle").modal("hide");
+
+    // Open the second modal
+    $("#mobile_sigin").modal("show");
+  });
+});
+
+$(document).ready(function () {
+  // When the "Edit" button is clicked, hide the OTP modal and show the mobile sign-in modal
+  $("#otp_modal .imgwidth").on("click", function (e) {
+    e.preventDefault();
+    $("#otp_modal").modal("hide");
+    $("#mobile_sigin").modal("show");
+  });
+});
+
+/******** Landing Header *******/
+
+let scrolledTo610 = false;
+let scrollPosition_previous = 0;
+$(window).scroll(function () {
+  let scrollPosition = $(this).scrollTop();
+
+  if (scrollPosition > 610) {
+    if (!scrolledTo610) {
+      $(".landingHeader").addClass("moveTop");
+      $(".subHeader").addClass("showSubHeader");
+      scrolledTo610 = true;
+      console.log("Scroll Down");
+    } else {
+      if (scrollPosition < scrollPosition_previous) {
+        $(".landingHeader").removeClass("moveTop");
+      } else {
+        $(".landingHeader").addClass("moveTop");
+      }
+    }
+    scrollPosition_previous = scrollPosition;
+  } else {
+    $(".landingHeader").removeClass("moveTop");
+    $(".subHeader").removeClass("showSubHeader");
+    scrolledTo610 = false;
+  }
+});
+
+$(".options").click(function () {
+  $(".options").removeClass("active");
+  $(this).addClass("active");
+});
+
+window.onload = function () {
+  document.getElementById("demo_header").style.display = "block";
+};
+
+/********* Header End **********/
+
+/*********** OTP timer *************/
+
+$(document).ready(function () {
+  let countdownTime = 60; // Set the initial countdown time to 60 seconds
+  let countdownInterval;
+  let modalVisible = false;
+
+  function updateCountdown() {
+    const minutes = Math.floor(countdownTime / 60);
+    const seconds = countdownTime % 60;
+    const formattedTime = `Retry in ${minutes
+      .toString()
+      .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+
+    if (countdownTime <= 0) {
+      $("#countdownText").text("Resend OTP");
+      $("#countdownText").addClass("resend-otp");
+    } else {
+      $("#countdownText").text(formattedTime);
+      $("#countdownText").removeClass("resend-otp");
+    }
+  }
+
+  function startCountdown() {
+    updateCountdown();
+    countdownInterval = setInterval(function () {
+      countdownTime -= 1;
+      updateCountdown();
+      if (countdownTime <= 0) {
+        clearInterval(countdownInterval);
+      }
+    }, 1000);
+  }
+
+  function stopCountdown() {
+    clearInterval(countdownInterval);
+    countdownTime = 60;
+    updateCountdown();
+  }
+
+  $("#otp_modal").on("shown.bs.modal", function () {
+    modalVisible = true;
+    startCountdown();
+  });
+
+  $("#otp_modal").on("hidden.bs.modal", function () {
+    modalVisible = false;
+    stopCountdown();
+  });
+
+  // Add a click event handler for the "Resend OTP" button
+  $("#countdownText").on("click", function () {
+    // Your code to resend OTP and restart the countdown
+    // For example, you can initiate the OTP resend process and then start the countdown.
+    // Replace the setTimeout function with your actual OTP resend logic.
+    // $(this).text("Resending..."); // Update the text to indicate the resend process
+
+    // Reset the countdown time to 60 seconds
+    countdownTime = 60;
+
+    // Start the countdown again after a delay (you may need to adjust the delay based on your OTP resend process)
+    setTimeout(function () {
+      startCountdown();
+    }); // Delay in milliseconds
+  });
+});
+
+$(document).ready(function () {
+  // Countdown 1
+  let countdownTime1 = 60; // Set the initial countdown time to 60 seconds
+  let countdownInterval1;
+  let modalVisible1 = false;
+
+  function updateCountdown1() {
+    const minutes = Math.floor(countdownTime1 / 60);
+    const seconds = countdownTime1 % 60;
+    const formattedTime = `Retry in ${minutes
+      .toString()
+      .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+
+    if (countdownTime1 <= 0) {
+      $("#countdownText1").text("Resend OTP");
+      $("#countdownText1").addClass("resend-otp");
+    } else {
+      $("#countdownText1").text(formattedTime);
+      $("#countdownText1").removeClass("resend-otp");
+    }
+  }
+
+  function startCountdown1() {
+    updateCountdown1();
+    countdownInterval1 = setInterval(function () {
+      countdownTime1 -= 1;
+      updateCountdown1();
+      if (countdownTime1 <= 0) {
+        clearInterval(countdownInterval1);
+      }
+    }, 1000);
+  }
+
+  function stopCountdown1() {
+    clearInterval(countdownInterval1);
+    countdownTime1 = 60;
+    updateCountdown1();
+  }
+
+  $("#otp_vehicle").on("shown.bs.modal", function () {
+    modalVisible1 = true;
+    startCountdown1();
+  });
+
+  $("#otp_vehicle").on("hidden.bs.modal", function () {
+    modalVisible1 = false;
+    stopCountdown1();
+  });
+
+  // Add a click event handler for the "Resend OTP" button for Countdown 1
+  $("#countdownText1").on("click", function () {
+    // Your code to resend OTP and restart Countdown 1
+    // For example, you can initiate the OTP resend process and then start Countdown 1.
+    // Replace the setTimeout function with your actual OTP resend logic.
+    // $(this).text("Resending..."); // Update the text to indicate the resend process
+
+    // Reset Countdown 1 time to 60 seconds
+    countdownTime1 = 60;
+
+    // Start Countdown 1 again after a delay (you may need to adjust the delay based on your OTP resend process)
+    setTimeout(
+      function () {
+        startCountdown1();
+      } /* Delay in milliseconds */
+    );
+  });
+});
+
+// view mor terminology tab
+jQuery(document).ready(function () {
+  var $this = $(".itemterm");
+  if ($this.find("div").length > 2) {
+    $(".itemterm").append(
+      '<div class="text-center" data-aos="fade-up" data-aos-duration="1500"><a href="javascript:;" class="showMore"></a></div>'
+    );
+  }
+  $(".itemterm .item").slice(0, 3).addClass("shown");
+  $(".itemterm .item").not(".shown").hide();
+  $(".itemterm .showMore").on("click", function () {
+    $(".itemterm .item").not(".shown").toggle(300);
+    $(this).toggleClass("showLess");
+  });
+});
+
+$("#material-tab-accordion").each(function () {
+  var $active,
+    $content,
+    $links = $(this).find("a");
+
+  $active = $($links[0]);
+  $active.addClass("active");
+
+  $content = $($active[0].hash);
+
+  $links.not($active).each(function () {
+    $(this.hash).hide();
+  });
+
+  $(this).on("click", "a", function (e) {
+    $active.removeClass("active");
+    $content.hide();
+
+    $active = $(this);
+    $content = $(this.hash);
+
+    $active.addClass("active");
+    $content.show();
+
+    e.preventDefault();
+  });
+});
+
+$("#material-tabs").each(function () {
+  var $active,
+    $content,
+    $links = $(this).find("a");
+
+  $active = $($links[0]);
+  $active.addClass("active");
+
+  $content = $($active[0].hash);
+
+  $links.not($active).each(function () {
+    $(this.hash).hide();
+  });
+
+  $(this).on("click", "a", function (e) {
+    $("#material-tabs a").removeClass("active")
+    $(".tab-changer").css("display", "none")
+    $active.removeClass("active");
+    $content.hide();
+
+    $active = $(this);
+    $content = $(this.hash);
+
+    $active.addClass("active");
+    $content.show();
+
+    // let $hash = this.hash
+    let hash = this.hash
+
+    // if(hash == "#tab4") {
+    //   healthRenderPagination()
+    // } else if (hash == "#tab3") {
+    //   carRenderPagination()
+    // } else if (hash == "#tab6"){
+    //   travelRenderPagination()
+    // }
+
+    switch (hash) {
+      case "#tab1":
+        allRenderPagination();
+        break;
+      case "#tab2":
+        bikeRenderPagination();
+        break;
+      case "#tab3":
+        carRenderPagination();
+        break;
+      case "#tab4":
+        healthRenderPagination();
+        break;
+      case "#tab5":
+        homeRenderPagination();
+        break;
+      case "#tab6":
+        travelRenderPagination();
+        break;
+      case "#tab7":
+        otherRenderPagination();
+        break;
+      case "#tab8":
+        commercialRenderPagination();
+        break;
+      default:
+        console.warn("No specific rendering function for tab:", hash);
+        break;
+    }
+
+
+    // renderPagination()
+
+    e.preventDefault();
+  });
+});
+
+jQuery(document).ready(function () {
+  var $this = $(".travel_1");
+  if ($this.find("div").length > 2) {
+    $(".travel_1").append(
+      '<div class="text-center" data-aos="fade-up" data-aos-duration="1500"><a href="javascript:;" class="showMore"></a></div>'
+    );
+  }
+  $(".travel_1 .item").slice(0, 6).addClass("shown");
+  $(".travel_1 .item").not(".shown").hide();
+  $(".travel_1 .showMore").on("click", function () {
+    $(".travel_1 .item").not(".shown").toggle(300);
+    $(this).toggleClass("showLess");
+  });
+
+  var $this = $(".travel_22");
+  if ($this.find("div").length > 2) {
+    $(".travel_22").append(
+      '<div class="text-center" data-aos="fade-up" data-aos-duration="1500"><a href="javascript:;" class="showMore"></a></div>'
+    );
+  }
+  $(".travel_22 .item").slice(0, 5).addClass("shown");
+  $(".travel_22 .item").not(".shown").hide();
+  $(".travel_22 .showMore").on("click", function () {
+    $(".travel_22 .item").not(".shown").toggle(300);
+    $(this).toggleClass("showLess");
+  });
+});
+
+jQuery(document).ready(function () {
+  var $this = $(".travel_3");
+  if ($this.find("div").length > 2) {
+    $(".travel_3").append(
+      '<div class="text-center" data-aos="fade-up" data-aos-duration="1500"><a href="javascript:;" class="showMore"></a></div>'
+    );
+  }
+  $(".travel_3 .item").slice(0, 5).addClass("shown");
+  $(".travel_3 .item").not(".shown").hide();
+  $(".travel_3 .showMore").on("click", function () {
+    $(".travel_3 .item").not(".shown").toggle(300);
+    $(this).toggleClass("showLess");
+  });
+});
+
+jQuery(document).ready(function () {
+  var $this = $(".travel_4");
+  if ($this.find("div").length > 2) {
+    $(".travel_4").append(
+      '<div class="text-center" data-aos="fade-up" data-aos-duration="1500"><a href="javascript:;" class="showMore"></a></div>'
+    );
+  }
+  $(".travel_4 .item").slice(0, 5).addClass("shown");
+  $(".travel_4 .item").not(".shown").hide();
+  $(".travel_4 .showMore").on("click", function () {
+    $(".travel_4 .item").not(".shown").toggle(300);
+    $(this).toggleClass("showLess");
+  });
+});
+
+$(".travel_multi_select_popup")
+  .select2()
+  .on("select2:open", (elm) => {
+    const targetLabel = $(elm.target).prev("label");
+    targetLabel.addClass("selected");
+  })
+  .on("select2:close", (elm) => {
+    const target = $(elm.target);
+    const targetLabel = target.prev("label");
+    const targetOptions = $(elm.target.selectedOptions);
+    if (targetOptions.length === 0) {
+      targetLabel.removeAttr("class");
+    }
+  });
+
+$(".travel_multi_select")
+  .select2()
+  .on("select2:open", (elm) => {
+    const targetLabel = $(elm.target).prev("label");
+    targetLabel.addClass("selected");
+  })
+  .on("select2:close", (elm) => {
+    const target = $(elm.target);
+    const targetLabel = target.prev("label");
+    const targetOptions = $(elm.target.selectedOptions);
+    if (targetOptions.length === 0) {
+      targetLabel.removeAttr("class");
+    }
+  });
+
+$("#blog-tab").each(function () {
+  var $active,
+    $content,
+    $links = $(this).find("a");
+
+  $active = $($links[0]);
+  $active.addClass("active");
+
+  $content = $($active[0].hash);
+
+  $links.not($active).each(function () {
+    $(this.hash).hide();
+  });
+
+  $(this).on("click", "a", function (e) {
+    $active.removeClass("active");
+    $content.hide();
+
+    $active = $(this);
+    $content = $(this.hash);
+
+    $active.addClass("active");
+    $content.show();
+
+    e.preventDefault();
+  });
+});
+
+// hide and show
+
+$(".get_new_quote_btn").click(function () {
+  $(".Recurring_User_home").hide();
+  $(".Recurring_User_trying_home").show();
+  $(this).hide();
+});
+
+// hide and show end
+
+$('.collapse_options[href="#collapseOption"]').click(function () {
+  $("#collapseOption1").removeClass("show");
+  $('.collapse_options[href="#collapseOption1"]').attr(
+    "aria-expanded",
+    "false"
+  );
+  $("#collapseOption2").removeClass("show");
+  $('.collapse_options[href="#collapseOption2"]').attr(
+    "aria-expanded",
+    "false"
+  );
+  $("#collapseOption3").removeClass("show");
+  $('.collapse_options[href="#collapseOption3"]').attr(
+    "aria-expanded",
+    "false"
+  );
+});
+
+$('.collapse_options[href="#collapseOption1"]').click(function () {
+  $("#collapseOption").removeClass("show");
+  $('.collapse_options[href="#collapseOption"]').attr("aria-expanded", "false");
+  $("#collapseOption2").removeClass("show");
+  $('.collapse_options[href="#collapseOption2"]').attr(
+    "aria-expanded",
+    "false"
+  );
+  $("#collapseOption3").removeClass("show");
+  $('.collapse_options[href="#collapseOption3"]').attr(
+    "aria-expanded",
+    "false"
+  );
+});
+
+$('.collapse_options[href="#collapseOption2"]').click(function () {
+  $("#collapseOption").removeClass("show");
+  $('.collapse_options[href="#collapseOption"]').attr("aria-expanded", "false");
+  $("#collapseOption1").removeClass("show");
+  $('.collapse_options[href="#collapseOption1"]').attr(
+    "aria-expanded",
+    "false"
+  );
+  $("#collapseOption3").removeClass("show");
+  $('.collapse_options[href="#collapseOption3"]').attr(
+    "aria-expanded",
+    "false"
+  );
+});
+
+$('.collapse_options[href="#collapseOption3"]').click(function () {
+  $("#collapseOption").removeClass("show");
+  $('.collapse_options[href="#collapseOption"]').attr("aria-expanded", "false");
+  $("#collapseOption1").removeClass("show");
+  $('.collapse_options[href="#collapseOption1"]').attr(
+    "aria-expanded",
+    "false"
+  );
+  $("#collapseOption2").removeClass("show");
+  $('.collapse_options[href="#collapseOption2"]').attr(
+    "aria-expanded",
+    "false"
+  );
+});
+
+$(".dropdown-toggle").hover(
+  function () {
+    $(".dropdown-menu").addClass("hovered");
+  },
+  function () {
+    $(".dropdown-menu").removeClass("hovered");
+  }
+);
+
+/******** Landing Header *******/
+
+// $(".Learn_more_slick").slick({
+//   infinite: false,
+//   slidesToShow: 3.3,
+//   slidesToScroll: 1,
+//   arrows: false,
+//   focusOnSelect: true,
+//   dots: true,
+
+//   responsive: [
+//     {
+//       breakpoint: 1200,
+//       settings: {
+//         slidesToShow: 3.3,
+//         slidesToScroll: 1,
+//       },
+//     },
+
+//     {
+//       breakpoint: 991,
+//       settings: {
+//         slidesToShow: 2.8,
+//         slidesToScroll: 1,
+//       },
+//     },
+//     {
+//       breakpoint: 768,
+//       settings: {
+//         slidesToShow: 1.1,
+//         slidesToScroll: 1,
+//       },
+//     },
+//   ],
+// });
+
+// $('.Learn_more_slick').slick({
+//   infinite: false,
+//   slidesToShow: 3.9,
+//   slidesToScroll: 1,
+//   arrows: false,
+//   focusOnSelect: true,
+//   dots: true,
+
+//   responsive: [
+
+//     {
+//       breakpoint: 768,
+//       settings: {
+//         slidesToShow: 1.1,
+//         slidesToScroll: 1
+//       }
+//     }
+//   ]
+// });
+
+// $(".Learn_more_slider").slick({
+//   infinite: false,
+//   slidesToShow: 3,
+//   slidesToScroll: 1,
+//   arrows: false,
+//   focusOnSelect: false,
+//   dots: false,
+//   observer: true,
+//   observeParents: true,
+
+//   responsive: [
+//     {
+//       breakpoint: 991,
+//       settings: {
+//         slidesToShow: 1.1,
+//         slidesToScroll: 1,
+//         dots: true,
+//       },
+//     },
+//   ],
+// });
+
+
+$('.Learn_more_slick').slick({
+  infinite: false,
+  slidesToShow: 2.9,
+  slidesToScroll: 1,
+  arrows: false,
+  focusOnSelect: true,
+  dots: true,
+  responsive: [
+    {
+      breakpoint: 1200,
+      settings: {
+        slidesToShow: 3.3,
+        slidesToScroll: 1
+      }
+    },
+    {
+      breakpoint: 991,
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 1
+      }
+    },
+    {
+      breakpoint: 768,
+      settings: {
+        slidesToShow: 1.03,
+        slidesToScroll: 1
+      }
+    }
+  ]
+});
+ 
+$('.Learn_more_slider').slick({
+    infinite: false,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    arrows: false,
+    focusOnSelect: false,
+    dots: false,
+    observer: true,
+    observeParents: true,
+ 
+    responsive: [
+      {
+        breakpoint: 991,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          dots: true,
+        }
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 1.2,
+          slidesToScroll: 1
+        }
+      }
+    ]
+});
+
+// personal accident
+if (matchMedia("only screen and (max-width: 768px)").matches) {
+  jQuery(document).ready(function () {
+    var $this = $(".items_crd");
+    if ($this.find("div").length > 2) {
+      $(".items_crd").append(
+        '<div class="text-center" data-aos="fade-up" data-aos-duration="1500"><a href="javascript:;" class="showMore"></a></div>'
+      );
+    }
+    $(".items_crd .item").slice(0, 3).addClass("shown");
+    $(".items_crd .item").not(".shown").hide();
+    $(".items_crd .showMore").on("click", function () {
+      $(".items_crd .item").not(".shown").toggle(300);
+      $(this).toggleClass("showLess");
+    });
+  });
+}
+
+$(document).ready(function () {
+  $(".type_of_cover_dropdown").select2({
+    minimumResultsForSearch: Infinity,
+  });
+});
+
+function email_restrict(input) {
+  // Remove any non-alphabet characters from the input
+  input.value = input.value.replace(/[^@ . a-z A-Z 0-9]/g, "");
+}
+
+function date_restrict(input) {
+  // Remove any non-alphabet characters from the input
+  input.value = input.value.replace(/[/ 0-9]/g, "");
+}
+
+$(".restrict").keypress(function (event) {
+  var character = String.fromCharCode(event.keyCode);
+  return isValid(character);
+});
+function isValid(str) {
+  return !/[.~`@@!#$%\^&*()+=\-\[\]\\';,/{}|\\":<>\?]/g.test(str);
+}
+
+
+// hide and show for car
+$("#insure_new_car_btn").click(function () {
+  $("#insure_new_car_section").show();
+  $("#insure_car_btn").show();
+  $("#insure_car_section").hide();
+  $(this).hide();
+});
+
+$("#insure_car_btn").click(function () {
+  $("#insure_new_car_btn").show();
+  $("#insure_car_section").show();
+  $("#insure_new_car_section").hide();
+  $(this).hide();
+});
+
+// hide and show for bike
+$("#insure_new_bike_btn").click(function () {
+  $("#insure_new_bike_section").show();
+  $("#insure_bike_btn").show();
+  $("#insure_bike_section").hide();
+  $(this).hide();
+});
+
+$("#insure_bike_btn").click(function () {
+  $("#insure_new_bike_btn").show();
+  $("#insure_bike_section").show();
+  $("#insure_new_bike_section").hide();
+  $(this).hide();
+});
+
+// hide and show
+
+// $(".insure_new_btn").click(function () {
+//   $(".my_reg_num").show();
+//   $(".reg_num_btn").show();
+//   $(".insure_new_bike").hide();
+//   $(".Recurring_User").hide();
+//   //$(".car-inputs").hide();
+//   $("#insure-new-car-inputs").hide();
+//   $(".bike_home_insure").hide();
+//   $(".bike_home_regis").show();
+
+//   $(this).hide();
+// });
+
+// $(".reg_num_btn").click(function () {
+//   $(".insure_new_bike").show();
+//   $(".insure_new_btn").show();
+//   $(".bike_home_regis").hide();
+//   $(".car-inputs").show();
+//   $(".my_reg_num").hide();
+//   $(".bike_home_insure").show();
+
+//   $(this).hide();
+// });
+
+// hide and show end
+
+$("#material-tab-accordion").each(function () {
+  var $active,
+    $content,
+    $links = $(this).find("a");
+
+  $active = $($links[0]);
+  $active.addClass("active");
+
+  $content = $($active[0].hash);
+
+  $links.not($active).each(function () {
+    $(this.hash).hide();
+  });
+
+  $(this).on("click", "a", function (e) {
+    $active.removeClass("active");
+    $content.hide();
+
+    $active = $(this);
+    $content = $(this.hash);
+
+    $active.addClass("active");
+    $content.show();
+
+    e.preventDefault();
+  });
+});
+
+$("#material-tab-accordion-resp").each(function () {
+  var $active,
+    $content,
+    $links = $(this).find("a");
+
+  $active = $($links[0]);
+  $active.addClass("active");
+
+  $content = $($active[0].hash);
+
+  $links.not($active).each(function () {
+    $(this.hash).hide();
+  });
+
+  $(this).on("click", "a", function (e) {
+    $active.removeClass("active");
+    $content.hide();
+
+    $active = $(this);
+    $content = $(this.hash);
+
+    $active.addClass("active");
+    $content.show();
+
+    e.preventDefault();
+  });
+});
+
+$("#material-tabs").each(function () {
+  var $active,
+    $content,
+    $links = $(this).find("a");
+
+  $active = $($links[0]);
+  $active.addClass("active");
+
+  $content = $($active[0].hash);
+
+  $links.not($active).each(function () {
+    $(this.hash).hide();
+  });
+
+  $(this).on("click", "a", function (e) {
+    $active.removeClass("active");
+    $content.hide();
+
+    $active = $(this);
+    $content = $(this.hash);
+
+    $active.addClass("active");
+    $content.show();
+
+    e.preventDefault();
+  });
+});
+
+$(".advertisments").slick({
+  dots: true,
+  infinite: true,
+  speed: 300,
+  autoplay: true,
+  autoplaySpeed: 5000,
+  slidesToShow: 1,
+  arrows: false,
+  responsive: [
+    {
+      breakpoint: 768,
+      settings: {
+        dots: false,
+      },
+    },
+  ],
+});
+
+// bike-insurance-profile
+
+$(".profile-slider").slick({
+  infinite: true,
+  arrows: false,
+  slidesToShow: 3,
+  slidesToScroll: 1,
+  asNavFor: ".review-slider",
+  centerMode: true,
+  centerPadding: "120px",
+  focusOnSelect: true,
+  // autoplay: true,
+  // autoplaySpeed: 2000,
+  responsive: [
+    {
+      breakpoint: 768,
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        centerMode: true,
+        centerPadding: "20px",
+      },
+    },
+  ],
+});
+
+$(".review-slider").slick({
+  infinite: true,
+  slidesToShow: 1,
+  dots: false,
+  slidesToScroll: 1,
+  asNavFor: ".profile-slider",
+  arrows: true,
+  fade: true,
+  responsive: [
+    {
+      breakpoint: 1024,
+      settings: {
+        arrows: false,
+      },
+    },
+  ],
+});
+
+$(".video_slider").slick({
+  infinite: false,
+  slidesToShow: 2.4,
+  slidesToScroll: 1,
+  arrows: false,
+  focusOnSelect: true,
+  dots: true,
+
+  responsive: [
+    {
+      breakpoint: 768,
+      settings: {
+        slidesToShow: 1.1,
+        slidesToScroll: 1,
+      },
+    },
+  ],
+});
+
+// view more accordion
+jQuery(document).ready(function () {
+  var $this = $(".items");
+  if ($this.find("div").length > 2) {
+    $(".items").append(
+      '<div class="text-center" data-aos="fade-up" data-aos-duration="1500"><a href="javascript:;" class="showMore"></a></div>'
+    );
+  }
+  $(".items .item").slice(0, 6).addClass("shown");
+  $(".items .item").not(".shown").hide();
+  $(".items .showMore").on("click", function () {
+    $(".items .item").not(".shown").toggle(300);
+    $(this).toggleClass("showLess");
+  });
+});
+
+// view mor terminology tab
+jQuery(document).ready(function () {
+  var $this = $(".itemsdown");
+  if ($this.find("div").length > 2) {
+    $(".itemsdown").append(
+      '<div class="text-center" data-aos="fade-up" data-aos-duration="1500"><a href="javascript:;" class="showMore"></a></div>'
+    );
+  }
+  $(".itemsdown .item").slice(0, 3).addClass("shown");
+  $(".itemsdown .item").not(".shown").hide();
+  $(".itemsdown .showMore").on("click", function () {
+    $(".itemsdown .item").not(".shown").toggle(300);
+    $(this).toggleClass("showLess");
+  });
+});
+
+// view more claim tab
+jQuery(document).ready(function () {
+  var $this = $(".itemclaim");
+  if ($this.find("div").length > 2) {
+    $(".itemclaim").append(
+      '<div class="text-center" data-aos="fade-up" data-aos-duration="1500"><a href="javascript:;" class="showMore"></a></div>'
+    );
+  }
+  $(".itemclaim .item").slice(0, 3).addClass("shown");
+  $(".itemclaim .item").not(".shown").hide();
+  $(".itemclaim .showMore").on("click", function () {
+    $(".itemclaim .item").not(".shown").toggle(300);
+    $(this).toggleClass("showLess");
+  });
+});
+
+// vertical slick
+$(".bike_vertical_slider").slick({
+  infinite: true,
+  vertical: true,
+  verticalSwiping: true,
+  slidesToShow: 3,
+  slidesToScroll: 1,
+  arrows: false,
+  focusOnSelect: true,
+  centerMode: true,
+  centerPadding: "0px",
+  autoplay: true,
+  autoplaySpeed: 3000,
+  dots: true,
+  responsive: [
+    {
+      breakpoint: 769,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        vertical: false,
+        centerMode: false,
+        verticalSwiping: false,
+      },
+    },
+  ],
+});
+
+// car landing page
+// enhance view more
+jQuery(document).ready(function () {
+  var $this = $(".enhance");
+  if ($this.find("div").length > 2) {
+    $(".enhance").append(
+      '<div class="text-center" data-aos="fade-up" data-aos-duration="1500"><a href="javascript:;" class="showMore"></a></div>'
+    );
+  }
+  $(".enhance .card_item").slice(0, 3).addClass("shown");
+  $(".enhance .card_item").not(".shown").hide();
+  $(".enhance .showMore").on("click", function () {
+    $(".enhance .card_item").not(".shown").toggle(300);
+    $(this).toggleClass("showLess");
+  });
+});
+
+//cover/addon tab
+jQuery(document).ready(function () {
+  var $this = $(".itemaddon");
+  if ($this.find("div").length > 2) {
+    $(".itemaddon").append(
+      '<div class="text-center" data-aos="fade-up" data-aos-duration="1500"><a href="javascript:;" class="showMore"></a></div>'
+    );
+  }
+  $(".itemaddon .item").slice(0, 3).addClass("shown");
+  $(".itemaddon .item").not(".shown").hide();
+  $(".itemaddon .showMore").on("click", function () {
+    $(".itemaddon .item").not(".shown").toggle(300);
+    $(this).toggleClass("showLess");
+  });
+});
+
+$(".predefined_details").hide();
+$(".extra_info").hide();
+$(".confirm_check").click(function () {
+  if ($(this).is(":checked")) {
+    $(".extra_info").hide();
+  } else {
+    $(".extra_info").show();
+  }
+});
+
+$(".otp_form").validate({
+  rules: {
+    otp: {
+      required: true,
+      digits: true,
+      minlength: 1,
+      maxlength: 1,
+    },
+  },
+  messages: {
+    otp: "Please enter OTP",
+  },
+  errorPlacement: function (error, element) {
+    if (element.is(":input")) {
+      error.appendTo(element.parents(".err_msg"));
+    } else {
+      // This is the default behavior
+      error.insertAfter(element);
+    }
+  },
+});
+
+// $('.aadhar_format').mask('xxxx-xxxx-xxxx');
+
+$(".loan_drpdwn").hide();
+$(".pre_own_damage").hide();
+$('input[name="bikeloan"]').change(function () {
+  var selectedValue = $(this).val();
+
+  if (selectedValue === "yes") {
+    $(".loan_drpdwn").show();
+    $(".pre_own_damage").hide();
+  } else if (selectedValue === "no") {
+    $(".loan_drpdwn").hide();
+    $(".pre_own_damage").show();
+  }
+});
+
+$(".loan_provider_select").select2({
+  minimumResultsForSearch: -1,
+});
+
+// var select2Container = $('.loan_provider_select').next('.select2-container');
+// $('.loan_drpdwn').append(select2Container);
+
+var optionsList = $(".select2-results__options");
+$(".loan_drpdwn").append(optionsList);
+
+// let tabChange = function(val){
+//   let ele = document.querySelectorAll('.otp-field');
+//   if(ele[val-1].value != ''){
+//     ele[val].focus()
+//   }else if(ele[val-1].value == ''){
+//     ele[val-2].focus()
+//   }
+// }
+
+// $('.otp-field').on('input', function() {
+//   if ($(this).val().trim().length === $(this).attr('maxlength')) {
+//       $(this).next('.otp-field').focus();
+//   }
+// });
+
+// var $inputField = $(".type_input");
+// var $submitButton = $(".proceed_btn");
+
+// // Attach a "input" event listener to the input field
+// $inputField.on("input", function() {
+//     // Check if the input field value is not empty
+//     if ($(this).val().trim() !== "") {
+//         // Enable the submit button
+//         $submitButton.prop("disabled", false);
+//     } else {
+//         // Disable the submit button
+//         $submitButton.prop("disabled", true);
+//     }
+// });
+
+// (function () {
+//   $('.type_input').on('input', function () {
+//     var empty = false;
+//     $('.type_input').each(function () {
+//       if (!empty && $(this).val() == '') {
+//         empty = true;
+//       }
+//     });
+//     $('.proceed_btn').prop('disabled', empty);
+//   });
+// })()
+
+$(".view_more").click(function () {
+  $(window).scrollTop(0);
+});
+
+$(".view_more-bike").click(function () {
+  $('[data-bs-target="#bike"]').tab("show");
+});
+
+$(".view_more-car").click(function () {
+  $('[data-bs-target="#car"]').tab("show");
+});
+
+$(".view_more-health").click(function () {
+  $('[data-bs-target="#health"]').tab("show");
+});
+
+$(".view_more-home").click(function () {
+  $('[data-bs-target="#home"]').tab("show");
+});
+
+$(".view_more-travel").click(function () {
+  $('[data-bs-target="#travel"]').tab("show");
+});
+
+$(".view_more-personal").click(function () {
+  $('[data-bs-target="#personal-accident"]').tab("show");
+});
+$("#material-tabs").each(function () {
+  var $active,
+    $content,
+    $links = $(this).find("a");
+
+  $active = $($links[0]);
+  $active.addClass("active");
+
+  $content = $($active[0].hash);
+
+  $links.not($active).each(function () {
+    $(this.hash).hide();
+  });
+
+  $(this).on("click", "a", function (e) {
+    $active.removeClass("active");
+    $content.hide();
+
+    $active = $(this);
+    $content = $(this.hash);
+
+    $active.addClass("active");
+    $content.show();
+
+    e.preventDefault();
+  });
+});
+
+jQuery(window).scroll(function () {
+  var scroll = jQuery(window).scrollTop();
+  if (scroll >= 130) {
+    jQuery(".sticky_tabs").addClass("stick_top");
+    jQuery(".blog_tab").addClass("mrg_top");
+  } else {
+    jQuery(".sticky_tabs").removeClass("stick_top");
+    jQuery(".blog_tab").removeClass("mrg_top");
+  }
+});
+
+// if (window.matchMedia('(min-width: 768px)').matches) {
+//   $("#scrollable").scrollWithPage(".scroll_parent");
+
+// }
+
+$(".insure-now").click(function () {
+  $(".insurance-plan").show();
+});
+
+$(".close").click(function () {
+  $(".insurance-plan").hide();
+});
+
+$(".type_input").on("keyup", function () {
+  if ($(this).val().trim() !== "") {
+    $(".proceed_btn").prop("disabled", false);
+  } else {
+    $(".proceed_btn").prop("disabled", true);
+  }
+});
+
+function throttle(callback, delay) {
+  let previousCall = 0;
+  return function () {
+    const currentTime = new Date().getTime();
+    if (currentTime - previousCall > delay) {
+      callback.apply(null, arguments);
+      previousCall = currentTime;
+    }
+  };
+}
+
+$(".predefined_details").hide();
+$(".extra_info").hide();
+$(".confirm_check").click(function () {
+  if ($(this).is(":checked")) {
+    $(".extra_info").hide();
+  } else {
+    $(".extra_info").show();
+  }
+});
+
+$(".otp_form").validate({
+  rules: {
+    otp: {
+      required: true,
+      digits: true,
+      minlength: 1,
+      maxlength: 1,
+    },
+  },
+  messages: {
+    otp: "Please enter OTP",
+  },
+  errorPlacement: function (error, element) {
+    if (element.is(":input")) {
+      error.appendTo(element.parents(".err_msg"));
+    } else {
+      // This is the default behavior
+      error.insertAfter(element);
+    }
+  },
+});
+
+$(".otp_form_vehicle").validate({
+  rules: {
+    otpv: {
+      required: true,
+      digits: true,
+      minlength: 1,
+      maxlength: 1,
+    },
+  },
+  messages: {
+    otpv: "Please enter OTPpp",
+  },
+  errorPlacement: function (error, element) {
+    if (element.is(":input")) {
+      error.appendTo(element.parents(".err_msg"));
+    } else {
+      // This is the default behavior
+      error.insertAfter(element);
+    }
+  },
+});
+
+$(".loan_drpdwn").hide();
+$(".pre_own_damage").hide();
+$('input[name="bikeloan"]').change(function () {
+  var selectedValue = $(this).val();
+  if (selectedValue === "yes") {
+    $(".loan_drpdwn").show();
+  } else if (selectedValue === "no") {
+    $(".loan_drpdwn").hide();
+  }
+});
+
+$(".tpd_toggle .form-check-input").on("change", function () {
+  if ($(this).prop("checked")) {
+    $(".pre_own_damage").show();
+  } else {
+    $(".pre_own_damage").hide();
+  }
+});
+
+$(".loan_provider_select").select2({
+  minimumResultsForSearch: -1,
+});
+
+// let tabChange = function(val){
+//   let ele = document.querySelectorAll('.otp-field');
+//   if(ele[val-1].value != ''){
+//     ele[val].focus()
+//   }else if(ele[val-1].value == ''){
+//     ele[val-2].focus()
+//   }
+// }
+
+// $('.otp-field').on('input', function() {
+//   if ($(this).val().trim().length === $(this).attr('maxlength')) {
+//       $(this).next('.otp-field').focus();
+//   }
+// });
+
+// var $inputField = $(".type_input");
+// var $submitButton = $(".proceed_btn");
+
+// // Attach a "input" event listener to the input field
+// $inputField.on("input", function() {
+//     // Check if the input field value is not empty
+//     if ($(this).val().trim() !== "") {
+//         // Enable the submit button
+//         $submitButton.prop("disabled", false);
+//     } else {
+//         // Disable the submit button
+//         $submitButton.prop("disabled", true);
+//     }
+// });
+
+(function () {
+  $(".type_input").on("input", function () {
+    var empty = false;
+    $(".type_input").each(function () {
+      if (!empty && $(this).val() == "") {
+        empty = true;
+      }
+    });
+    $(".proceed_btn").prop("disabled", empty);
+  });
+})();
+
+$(".search_btn").click(function () {
+  $(".search").show();
+});
+
+$(".close_search").click(function () {
+  $(".search").hide();
+});
+
+$('.collapse_options[href="#collapseOption"]').click(function () {
+  $("#collapseOption1").removeClass("show");
+  $('.collapse_options[href="#collapseOption1"]').attr(
+    "aria-expanded",
+    "false"
+  );
+  $("#collapseOption2").removeClass("show");
+  $('.collapse_options[href="#collapseOption2"]').attr(
+    "aria-expanded",
+    "false"
+  );
+  $("#collapseOption3").removeClass("show");
+  $('.collapse_options[href="#collapseOption3"]').attr(
+    "aria-expanded",
+    "false"
+  );
+});
+
+$('.collapse_options[href="#collapseOption1"]').click(function () {
+  $("#collapseOption").removeClass("show");
+  $('.collapse_options[href="#collapseOption"]').attr("aria-expanded", "false");
+  $("#collapseOption2").removeClass("show");
+  $('.collapse_options[href="#collapseOption2"]').attr(
+    "aria-expanded",
+    "false"
+  );
+  $("#collapseOption3").removeClass("show");
+  $('.collapse_options[href="#collapseOption3"]').attr(
+    "aria-expanded",
+    "false"
+  );
+});
+
+$('.collapse_options[href="#collapseOption2"]').click(function () {
+  $("#collapseOption").removeClass("show");
+  $('.collapse_options[href="#collapseOption"]').attr("aria-expanded", "false");
+  $("#collapseOption1").removeClass("show");
+  $('.collapse_options[href="#collapseOption1"]').attr(
+    "aria-expanded",
+    "false"
+  );
+  $("#collapseOption3").removeClass("show");
+  $('.collapse_options[href="#collapseOption3"]').attr(
+    "aria-expanded",
+    "false"
+  );
+});
+
+$('.collapse_options[href="#collapseOption3"]').click(function () {
+  $("#collapseOption").removeClass("show");
+  $('.collapse_options[href="#collapseOption"]').attr("aria-expanded", "false");
+  $("#collapseOption1").removeClass("show");
+  $('.collapse_options[href="#collapseOption1"]').attr(
+    "aria-expanded",
+    "false"
+  );
+  $("#collapseOption2").removeClass("show");
+  $('.collapse_options[href="#collapseOption2"]').attr(
+    "aria-expanded",
+    "false"
+  );
+});
+
+$(".view_more").click(function () {
+  $(window).scrollTop(0);
+});
+
+$(".view_more-bike").click(function () {
+  $('[data-bs-target="#bike"]').tab("show");
+});
+
+$(".view_more-car").click(function () {
+  $('[data-bs-target="#car"]').tab("show");
+});
+
+$(".view_more-health").click(function () {
+  $('[data-bs-target="#health"]').tab("show");
+});
+
+$(".view_more-home").click(function () {
+  $('[data-bs-target="#home"]').tab("show");
+});
+
+$(".view_more-travel").click(function () {
+  $('[data-bs-target="#travel"]').tab("show");
+});
+
+$(".view_more-personal").click(function () {
+  $('[data-bs-target="#personal-accident"]').tab("show");
+});
+
+jQuery(window).scroll(function () {
+  var scroll = jQuery(window).scrollTop();
+  if (scroll >= 130) {
+    jQuery(".sticky_tabs").addClass("stick_top");
+    jQuery(".blog_tab").addClass("mrg_top");
+  } else {
+    jQuery(".sticky_tabs").removeClass("stick_top");
+    jQuery(".blog_tab").removeClass("mrg_top");
+  }
+});
+
+// if (window.matchMedia('(min-width: 768px)').matches) {
+//   $("#scrollable").scrollWithPage(".scroll_parent");
+
+// }
+
+$(".insure-now").click(function () {
+  $(".insurance-plan").show();
+});
+
+$(".close").click(function () {
+  $(".insurance-plan").hide();
+});
+
+// Wrap your AOS initialization in a throttled function
+const throttledAOSInit = throttle(function () {
+  AOS.init({ duration: 500 });
+}, 100); // Adjust the delay as needed
+
+// tabs query
+
+// tabs query
+
+// Attach the throttled function to the scroll event
+window.addEventListener("scroll", throttledAOSInit);
+
+/********************** range-slider ***********************/
+const sliderEl = document.querySelector("#range");
+const sliderValue = document.querySelector(".value");
+
+function formatNumberWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+sliderEl.addEventListener("input", (event) => {
+  const tempSliderValue = parseInt(event.target.value); // Convert value to a number
+  const formattedValue = formatNumberWithCommas(tempSliderValue);
+
+  sliderValue.value = formattedValue;
+
+  const progress =
+    ((tempSliderValue - sliderEl.min) / (sliderEl.max - sliderEl.min)) * 100;
+
+  sliderEl.style.background = `linear-gradient(to right, #14A39F ${progress}%, #E7E7E8 ${progress}%)`;
+});
+
+sliderValue.addEventListener("input", function () {
+  // Replace any non-numeric characters with an empty string
+  this.value = this.value.replace(/[^0-9]/g, "");
+});
+/********************** range-slider ***********************/
+
+// hide and show
+
+$(".home_bike_insure_btn").click(function () {
+  $(".bike_home_insure").show();
+  $(".bike_home_regis").hide();
+
+  $(this).hide();
+});
+
+$(".reg_num_home_btn").click(function () {
+  $(".bike_home_regis").show();
+  $(".bike_home_insure").hide();
+
+  $(this).hide();
+});
+
+// ****************** header js scrollup header sticky start *****************************
+$(document).ready(function () {
+  $(window).scroll(function () {
+    myFunction();
+  });
+
+  var header = $("#myHeader");
+  var sectionHeader = $(".section-home-banner");
+  var sticky = header.offset().top;
+
+  function myFunction() {
+    if ($(window).scrollTop() > sticky) {
+      header.addClass("sticky");
+      sectionHeader.addClass("height75");
+    } else {
+      header.removeClass("sticky");
+      sectionHeader.removeClass("height75");
+    }
+  }
+});
+// ****************** header js scrollup header sticky end  *****************************
